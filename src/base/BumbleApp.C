@@ -2,6 +2,7 @@
 #include "Moose.h"
 #include "AppFactory.h"
 #include "ModulesApp.h"
+#include "LaplaceYoung.h"
 
 template<>
 InputParameters validParams<BumbleApp>()
@@ -44,6 +45,7 @@ extern "C" void BumbleApp__registerObjects(Factory & factory) { BumbleApp::regis
 void
 BumbleApp::registerObjects(Factory & factory)
 {
+	registerKernel(LaplaceYoung);
 }
 
 // External entry point for dynamic syntax association
