@@ -1,10 +1,10 @@
-#include "StorkApp.h"
+#include "BumbleApp.h"
 #include "Moose.h"
 #include "AppFactory.h"
 #include "ModulesApp.h"
 
 template<>
-InputParameters validParams<StorkApp>()
+InputParameters validParams<BumbleApp>()
 {
   InputParameters params = validParams<MooseApp>();
 
@@ -15,40 +15,40 @@ InputParameters validParams<StorkApp>()
   return params;
 }
 
-StorkApp::StorkApp(InputParameters parameters) :
+BumbleApp::BumbleApp(InputParameters parameters) :
     MooseApp(parameters)
 {
   Moose::registerObjects(_factory);
   ModulesApp::registerObjects(_factory);
-  StorkApp::registerObjects(_factory);
+  BumbleApp::registerObjects(_factory);
 
   Moose::associateSyntax(_syntax, _action_factory);
   ModulesApp::associateSyntax(_syntax, _action_factory);
-  StorkApp::associateSyntax(_syntax, _action_factory);
+  BumbleApp::associateSyntax(_syntax, _action_factory);
 }
 
-StorkApp::~StorkApp()
+BumbleApp::~BumbleApp()
 {
 }
 
 // External entry point for dynamic application loading
-extern "C" void StorkApp__registerApps() { StorkApp::registerApps(); }
+extern "C" void BumbleApp__registerApps() { BumbleApp::registerApps(); }
 void
-StorkApp::registerApps()
+BumbleApp::registerApps()
 {
-  registerApp(StorkApp);
+  registerApp(BumbleApp);
 }
 
 // External entry point for dynamic object registration
-extern "C" void StorkApp__registerObjects(Factory & factory) { StorkApp::registerObjects(factory); }
+extern "C" void BumbleApp__registerObjects(Factory & factory) { BumbleApp::registerObjects(factory); }
 void
-StorkApp::registerObjects(Factory & factory)
+BumbleApp::registerObjects(Factory & factory)
 {
 }
 
 // External entry point for dynamic syntax association
-extern "C" void StorkApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { StorkApp::associateSyntax(syntax, action_factory); }
+extern "C" void BumbleApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { BumbleApp::associateSyntax(syntax, action_factory); }
 void
-StorkApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
+BumbleApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
 {
 }
