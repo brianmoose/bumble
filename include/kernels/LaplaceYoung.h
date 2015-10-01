@@ -32,6 +32,7 @@ public:
 protected:
   virtual Real computeQpResidual();
   virtual Real computeQpJacobian();
+  const Real _kappa;
 };
 
 

@@ -19,11 +19,13 @@ template<>
 InputParameters validParams<LaplaceYoung>()
 {
   InputParameters p = validParams<Kernel>();
+  p.addParam<Real>("kappa", 1.0, "Kappa");
   return p;
 }
 
 LaplaceYoung::LaplaceYoung(const InputParameters & parameters) :
-    Kernel(parameters)
+    Kernel(parameters),
+	_kappa(getParam<Real>("kappa"))
 {
 }
 
@@ -34,12 +36,16 @@ LaplaceYoung::~LaplaceYoung()
 Real
 LaplaceYoung::computeQpResidual()
 {
-  return _grad_u[_qp] * _grad_test[_i][_qp];
+  Real k = 1.0 / sqrt(1.0 + _grad_u[_qp]*_grad_u[_qp]);
+  return k * _grad_u[_qp] * _grad_test[_i][_qp] + _kappa * _u[_qp]*_test[_i][_qp];
 }
 
 Real
 LaplaceYoung::computeQpJacobian()
 {
-  return _grad_phi[_j][_qp] * _grad_test[_i][_qp];
+  Real k = 1.0 / sqrt(1.0 + _grad_u[_qp]*_grad_u[_qp]);
+  Real dkdu = -std::pow(1. + _grad_u[_qp]*_grad_u[_qp], -1.5);
+  return dkdu * (_grad_u[_qp] * _grad_phi[_j][_qp]) * (_grad_u[_qp]*_grad_test[_i][_qp])
+    + k * _grad_phi[_j][_qp] * _grad_test[_i][_qp] + _kappa * _phi[_j][_qp]*_test[_i][_qp];
 }
 
